@@ -74,8 +74,25 @@ global.dev_trace = (msg = 'Trace') => {
 
 global.dev_json = (obj, title = 'JSON Output') => {
     const timestamp = chalk.gray(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}]`);
+    const jsonString = JSON.stringify(obj, null, 2);
+  
+    // Highlight keys
+    const highlighted = jsonString.replace(
+      /"([^"]+)":/g,
+      (_, key) => chalk.yellowBright(`"${key}"`) + ':'
+    );
+  
+    const lines = highlighted.split('\n');
+    const maxLength = Math.max(...lines.map(line => line.length));
+    const top = `┌${'─'.repeat(maxLength + 2)}┐`;
+    const bottom = `└${'─'.repeat(maxLength + 2)}┘`;
+    const boxed = lines.map(line => `│ ${line.padEnd(maxLength)} │`);
+  
     console.log(`${timestamp} ${chalk.cyanBright('[JSON]')} ${chalk.whiteBright(title)}`);
-    console.log(chalk.greenBright(JSON.stringify(obj, null, 2)));
-};
+    console.log(top);
+    boxed.forEach(line => console.log(line));
+    console.log(bottom);
+  };
+  
 
 export {};
