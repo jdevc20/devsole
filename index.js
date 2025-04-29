@@ -72,13 +72,10 @@ global.dev_trace = (msg = 'Trace') => {
     console.trace(chalk.redBright(`[TRACE] ${msg}`));
 };
 
-// No need to export anything, but can leave empty export to satisfy ESM
-export { };
-
 global.dev_json = (obj, title = 'JSON Output') => {
     const timestamp = chalk.gray(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}]`);
     console.log(`${timestamp} ${chalk.cyanBright('[JSON]')} ${chalk.whiteBright(title)}`);
     console.log(chalk.greenBright(JSON.stringify(obj, null, 2)));
 };
 
-module.exports = {}; 
+export {};
